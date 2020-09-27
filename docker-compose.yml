@@ -1,0 +1,65 @@
+version: "3.8"
+services:
+  nginx:
+    build: nginx
+    ports:
+      - "8080:8080" # voor info
+      - "8888:8888" # fluentd
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html:ro
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/config/fluent.conf:/etc/fluent/fluent.conf
+      - ./nginx/log/fluent:/var/log/fluent
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - promscale
+      - postgresql_exporter
+    volumes:
+      - "./prometheus/data:/prometheus"
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - "./grafana/storage:/var/lib/grafana"
+    links:
+      - "prometheus:prometheus"
+      - "promscale:promscale"
+
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - "./mosquitto/data:/mosquitto/data"
+      - "./mosquitto/log:/mosquitto/log"
+      - "./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf"
+
+  promscale:
+    image: timescaledev/promscale-extension:latest-pg12
+    ports:
+      - "9201:9201"
+      - "5432:5432"
+    environment:
+      - "POSTGRES_PASSWORD=postgres"
+    volumes:
+      - "./promscale/data:/var/lib/postgresql/data"
+
+  postgresql_exporter:
+    image: wrouesnel/postgres_exporter
+    depends_on:
+      - promscale
+    environment:
+      - "DATA_SOURCE_NAME=postgresql://postgres:postgres@promscale:5432/postgres?sslmode=disable"
+    links:
+      - "promscale:promscale"
+    ports:
+      - "9187:9187"
