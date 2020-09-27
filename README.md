@@ -15,3 +15,4 @@ Port | Container                              | local-link
 9201 | promscale                              | *PostgreSQL to prometheus as remote-storage*
 5432 |                                        | *PostgreSQL with timescale* `./psql-docker.sh`
 9187 | postgresql_exporter                    | *PostgreSQL to prometheus*
+1883 | mosquitto                              | *MQTT broker*
