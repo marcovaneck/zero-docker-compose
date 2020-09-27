@@ -1,0 +1,6 @@
+/mosquitto/data/*
+/mosquitto/log/*
+/nginx/log/*
+/prometheus/data/*
+/promscale/data/*
+
