@@ -10,6 +10,10 @@ services:
       - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/config/fluent.conf:/etc/fluent/fluent.conf
       - ./nginx/log/fluent:/var/log/fluent
+    links:
+      - "mosquitto:mosquitto"
+    depends_on:
+      - mosquitto
 
   prometheus:
     image: prom/prometheus

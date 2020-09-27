@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ID=$(docker ps --filter publish=1883 --format "{{.ID}}"| head -1)
+if [ -z "$ID" ]; then
+	echo "Please start ${NAME}"
+	exit 1
+fi
+
+docker exec -it ${ID} mosquitto_sub "$@"

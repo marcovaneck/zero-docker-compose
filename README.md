@@ -16,3 +16,9 @@ Port | Container                              | local-link
 5432 |                                        | *PostgreSQL with timescale* `./psql-docker.sh`
 9187 | postgresql_exporter                    | *PostgreSQL to prometheus*
 1883 | mosquitto                              | *MQTT broker*
+
+## Mosquitto
+
+Used by some iot devices (message broker)
+- Publish: `scripts/mosquitto_pub -t sensor -m '{"aap":1}'`
+- Listen:  `scripts/mosquitto_sub -t sensor`
