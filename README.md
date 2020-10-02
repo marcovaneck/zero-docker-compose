@@ -19,7 +19,7 @@ Port | Container                              | local-link
 
 ## Boat-data
 
-1. download [marie-postgresql.gz](https://drive.google.com/file/d/1MvSa_U72yy86zrcA1Tdo7zucqYi8HBY9/view?usp=sharing) from google-drive
+1. download [marie-postgresql.gz](https://drive.google.com/file/d/1WjRU2YyXpTX_TwW4VvwJSwK87_ZuhBs6/view?usp=sharing) from google-drive
 2. unzip `gunzip marie-postgresql.gz`
 3. run `PGPASSWORD=postgres psql -h localhost -U postgres -f marie-postgresql`
 
